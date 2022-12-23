@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Initial.unity
+    guid: 73a2779971f862e2e82eb30d10768bc4
+  - enabled: 1
+    path: Assets/Scenes/Inferno1.unity
+    guid: 904066488b1156c1b8d0f4b00c195c09
+  - enabled: 1
+    path: Assets/Scenes/Inferno0.unity
+    guid: cae8c6a906eddfbd8ac44db4cf7e8e82
+  - enabled: 1
+    path: Assets/Scenes/Inferno-1.unity
+    guid: 53908ffac070e3f72b37a827c0c43bc3
+  - enabled: 1
+    path: Assets/Scenes/AnimationTests.unity
+    guid: 331359bab8f6826639bef411b1f771a1
+  m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: ce191efda8d72da189ca7df4233a1651, type: 2}
