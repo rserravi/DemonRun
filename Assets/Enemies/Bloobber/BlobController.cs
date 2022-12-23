@@ -28,7 +28,13 @@ public class BlobController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        playerPosition = GameController._Player.transform.position;
+        if (GameController._Player){
+            playerPosition = GameController._Player.transform.position;
+        }
+        else {
+            playerPosition = Vector3.zero;
+        }
+        
         playerDistance = Vector3.Distance(playerPosition,transform.position);
         playerDetected = playerDistance<= detectRadius;
         if(playerDetected){

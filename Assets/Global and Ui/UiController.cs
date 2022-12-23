@@ -127,15 +127,15 @@ public class UiController : MonoBehaviour
         while (elapsedTime < fadeDuration){
           
             elapsedTime = Time.unscaledTime - startTime;
-            Debug.Log("ELAPSED TIME"+elapsedTime);
+           // Debug.Log("ELAPSED TIME"+elapsedTime);
             Color newColor = Color.Lerp(initialColor, targetColor, elapsedTime/ fadeDuration);
             blackDrop.color = newColor;
-            Debug.Log(newColor);
+            //Debug.Log(newColor);
             yield return null;
 
            
         }
-        Debug.Log("CORROUTINE HAS ENDED");
+        Debug.Log("FADE OUT CORROUTINE HAS ENDED");
         GameController.instance.ResetAndRespawn();
     }
 

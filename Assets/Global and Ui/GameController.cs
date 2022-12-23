@@ -204,12 +204,45 @@ public class GameController : MonoBehaviour
     }
 
     public void UnloadLevel(string level){
-        SceneManager.UnloadSceneAsync(level);
+        int sceneCount = SceneManager.sceneCount;
+        for (int i = 0; i < sceneCount; i++)
+        {
+            Scene scene = SceneManager.GetSceneAt(i);
+            if (scene.name == level){
+                SceneManager.UnloadSceneAsync(level);
+            }      
+        }
+       
     }
 
     public void LoadLevel(string level){
-        SceneManager.LoadSceneAsync(level,LoadSceneMode.Additive);
-        
+        int sceneCount = SceneManager.sceneCount;
+        bool found = false;
+        for (int i = 0; i < sceneCount; i++)
+        {
+            Scene scene = SceneManager.GetSceneAt(i);
+            if (scene.name == level){
+                found = true;
+            }      
+        }
+        if (!found){
+             SceneManager.LoadSceneAsync(level,LoadSceneMode.Additive);
+        } 
+    }
+
+    public void SetLevelAndSpawn(LevelController newLevel, int spawnIndex){
+        int sceneCount = SceneManager.sceneCount;
+        for (int i = 0; i < sceneCount; i++)
+        {
+            Scene scene = SceneManager.GetSceneAt(i);
+            if (scene.name == newLevel.unityLevelString){
+                SceneManager.SetActiveScene(scene);
+                _Level = newLevel;
+            }      
+        }
+
+        RespawnLevel = newLevel.unityLevelString;
+        RespawnPlace = spawnIndex;
     }
 
     
@@ -251,14 +284,11 @@ public class GameController : MonoBehaviour
         playerHealth = playerMaxHealth;
         if (SceneManager.GetActiveScene().name != RespawnLevel){
               SceneManager.LoadScene(RespawnLevel, LoadSceneMode.Single);
-              Scene currentScene = SceneManager.GetActiveScene ();
         }
-        
-      
-       
-         Time.timeScale = 1;
+        Debug.Break();
+        Time.timeScale = 1;
         uiController.ResetBackdrop();
-        _Level = GameObject.FindGameObjectWithTag("Level").GetComponent<LevelController>();
+        //_Level = GameObject.FindGameObjectWithTag("Level").GetComponent<LevelController>();
         _Player =  Instantiate(PlayerPrefab, _Level.respawnPoints[RespawnPlace].position, Quaternion.identity);
         playState = PlayState.playing;
     }

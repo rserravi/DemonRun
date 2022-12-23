@@ -18,7 +18,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Inferno-1.unity
     guid: 53908ffac070e3f72b37a827c0c43bc3
   - enabled: 1
-    path: Assets/Scenes/AnimationTests.unity
+    path: Assets/Scenes/TESTS/AnimationTests.unity
     guid: 331359bab8f6826639bef411b1f771a1
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: ce191efda8d72da189ca7df4233a1651, type: 2}
