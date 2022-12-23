@@ -285,7 +285,7 @@ public class GameController : MonoBehaviour
         if (SceneManager.GetActiveScene().name != RespawnLevel){
               SceneManager.LoadScene(RespawnLevel, LoadSceneMode.Single);
         }
-        Debug.Break();
+       // Debug.Break();
         Time.timeScale = 1;
         uiController.ResetBackdrop();
         //_Level = GameObject.FindGameObjectWithTag("Level").GetComponent<LevelController>();
