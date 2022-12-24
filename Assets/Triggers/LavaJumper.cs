@@ -8,7 +8,9 @@ public class LavaJumper : MonoBehaviour
     public float upward;
 
     private void OnTriggerEnter(Collider other) {
-        Debug.Log("IMPULSING");
-        other.attachedRigidbody.AddExplosionForce(explosionForce, transform.position, explosionRadius,upward, ForceMode.Force);
+        if (other.CompareTag("Player")){
+            Debug.Log("IMPULSING");
+            other.attachedRigidbody.AddExplosionForce(explosionForce, transform.position, explosionRadius,upward, ForceMode.Force);
+        }
     }
 }

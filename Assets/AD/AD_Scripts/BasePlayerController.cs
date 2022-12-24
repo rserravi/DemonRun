@@ -104,15 +104,17 @@ public class BasePlayerController : MonoBehaviour
             Vector3 newPos;
             if (!_Pj.verticalGround){
                 
-                
-                newPos = new Vector3 (transform.position.x, transform.position.y, _Pj.ground.z);
-                transform.position = newPos;
+                if (!_Pj.overridenDirDetection){
+                    newPos = new Vector3 (transform.position.x, transform.position.y, _Pj.ground.z);
+                    transform.position = newPos;
+                }
                 _Pj._rb.constraints = RigidbodyConstraints.FreezePositionZ;
             }
             else{
-                
-                newPos = new Vector3 ( _Pj.ground.x, transform.position.y, transform.position.z);
-                transform.position = newPos;
+                if (!_Pj.overridenDirDetection){
+                    newPos = new Vector3 ( _Pj.ground.x, transform.position.y, transform.position.z);
+                    transform.position = newPos;
+                }
                 _Pj._rb.constraints = RigidbodyConstraints.FreezePositionX;
             }
             
