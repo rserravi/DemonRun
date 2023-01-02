@@ -12,6 +12,7 @@ TagManager:
   - Slider
   - DirChanger
   - Drown
+  - Rat
   layers:
   - Default
   - TransparentFX
