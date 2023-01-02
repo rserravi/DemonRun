@@ -863,8 +863,8 @@ MonoBehaviour:
   _Level: {fileID: 0}
   damagePointsPrefab: {fileID: 7838108067659416122, guid: 0cbc6a14d0d1c3f2a8a6e054961c720d, type: 3}
   PlayerPrefab: {fileID: 6444456880766691519, guid: e1f6afe09ed4e306189d4d4126529d28, type: 3}
-  RespawnLevel: Inferno1
-  RespawnPlace: 0
+  RespawnLevel: Inferno-1
+  RespawnPlace: 1
   uiController: {fileID: 2105106681}
   _AudioSource: {fileID: 0}
   _Camera: {fileID: 0}

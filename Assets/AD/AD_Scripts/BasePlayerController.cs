@@ -82,6 +82,9 @@ public class BasePlayerController : MonoBehaviour
         
          GameController.instance._CameraAnimator.SetBool("Sliding", false);
          _animator.SetBool("Sliding", false);
+         _Pj._rb.mass = 5f;
+         _Pj._rb.drag = 1;
+         _Pj._rb.angularDrag = 0.05f;
          
          //SETTINGS
         float limitSpeed = maxSpeed;
@@ -102,7 +105,7 @@ public class BasePlayerController : MonoBehaviour
 
         if (isGrounded && _Pj.ground != null){
             Vector3 newPos;
-            if (!_Pj.verticalGround){
+            if (!_Pj.verticalGround){ //SUELO HORIZONTAL
                 
                 if (!_Pj.overridenDirDetection){
                     newPos = new Vector3 (transform.position.x, transform.position.y, _Pj.ground.z);
@@ -110,7 +113,7 @@ public class BasePlayerController : MonoBehaviour
                 }
                 _Pj._rb.constraints = RigidbodyConstraints.FreezePositionZ;
             }
-            else{
+            else{ //SUELO VERTICAL
                 if (!_Pj.overridenDirDetection){
                     newPos = new Vector3 ( _Pj.ground.x, transform.position.y, transform.position.z);
                     transform.position = newPos;
