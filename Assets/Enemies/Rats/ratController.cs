@@ -264,12 +264,6 @@ public class ratController : MonoBehaviour
             }
            
         }
-
-        
-
-
-        
-
         
     }
 

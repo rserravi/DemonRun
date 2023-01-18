@@ -14,7 +14,6 @@ public class BasePlayerController : MonoBehaviour
 
     public bool isGrounded;
     public bool canFly;
-    public bool isFlying;
     public GameController.Facing facing = GameController.Facing.right;
     private Animator _animator;
     private CharacterController _cC;
@@ -31,6 +30,7 @@ public class BasePlayerController : MonoBehaviour
     public bool inversedControls;
     
     public Pj _Pj;
+    public DressingRoom _dressingRoom;
 
     [HideInInspector]
     public Vector2 moveVal;
@@ -54,9 +54,9 @@ public class BasePlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //_cC = GetComponent<CharacterController>();
         _animator = GetComponent<Animator>();
         _Pj = GetComponent<Pj>();
+        _dressingRoom = GetComponent<DressingRoom>();
         _weapons = GetComponent<WeaponsSystem>();
 
         originalSpeed = speed;
@@ -72,19 +72,28 @@ public class BasePlayerController : MonoBehaviour
             if (_Pj.movementStyle=="Drowning"){
                 Drowning();
             }
+            if (_Pj.movementStyle=="Flying"){
+                Flying();
+            }
         }
         if (beingEaten){
             BeingEaten();            
         }
+        _animator.SetBool("CanFly",canFly);
+        _Pj.canFly = canFly;
+        
     }
 
     private void WalkMovement(){
         
          GameController.instance._CameraAnimator.SetBool("Sliding", false);
          _animator.SetBool("Sliding", false);
+         _dressingRoom.wingAnimator.SetBool("Flapping", false);
+         _animator.SetBool("IsFlying", false);
          _Pj._rb.mass = 5f;
          _Pj._rb.drag = 1;
          _Pj._rb.angularDrag = 0.05f;
+         _Pj._rb.useGravity = true;
          
          //SETTINGS
         float limitSpeed = maxSpeed;
@@ -123,21 +132,9 @@ public class BasePlayerController : MonoBehaviour
             
         }
 
-         //Set Facing;
-        if (moveVal.x<0 && facing== GameController.Facing.right && !vertical) facing = GameController.Facing.left;
-        if (moveVal.x>0 && facing== GameController.Facing.left && !vertical) facing = GameController.Facing.right;
-        if (moveVal.x<0 && facing== GameController.Facing.back && !vertical) facing = GameController.Facing.left;
-        if (moveVal.x>0 && facing== GameController.Facing.front && !vertical) facing = GameController.Facing.right;
-
-        if (moveVal.x<0 && facing== GameController.Facing.right && vertical) facing = GameController.Facing.front;
-        if (moveVal.x>0 && facing== GameController.Facing.left && vertical) facing = GameController.Facing.back;
-        if (moveVal.x<0 && facing== GameController.Facing.back && vertical) facing = GameController.Facing.front;
-        if (moveVal.x>0 && facing== GameController.Facing.front && vertical) facing = GameController.Facing.back;
-
+        SetFacing();
         
         FaceChange();
-
-        _Pj._rb.useGravity  = !isFlying;
             
 
         //CROUNCH
@@ -148,7 +145,7 @@ public class BasePlayerController : MonoBehaviour
 
         //SET ANIMATOR
 
-        _animator.SetFloat("Velocity",_Pj._rb.velocity.magnitude);
+        _animator.SetFloat("Velocity",Mathf.Abs(_Pj.verticalGround?_Pj._rb.velocity.z:_Pj._rb.velocity.x));
         _animator.SetBool("Falling", (!isGrounded && _Pj._rb.velocity.y <0));
         if (_Pj._rb.velocity.y <0){
              _animator.SetBool("Jump",false);
@@ -176,6 +173,8 @@ public class BasePlayerController : MonoBehaviour
     void LavaSlide(){
         
         facing = GameController.Facing.right;
+        _dressingRoom.wingAnimator.SetBool("Flapping", false);
+         _animator.SetBool("IsFlying", false);
         FaceChange();
         _Pj._rb.constraints = RigidbodyConstraints.None;
         _Pj._rb.constraints = RigidbodyConstraints.FreezeRotation;
@@ -198,6 +197,7 @@ public class BasePlayerController : MonoBehaviour
 
     void Drowning(){
         _Pj._rb.constraints = RigidbodyConstraints.None;
+         _animator.SetBool("IsFlying", false);
         //_Pj._rb.constraints = RigidbodyConstraints.FreezeRotation;
         if (GameController.instance.playerHealth>0){
             TakeDamage(2,transform.position, GameController.DamageType.normal);
@@ -206,6 +206,19 @@ public class BasePlayerController : MonoBehaviour
         Vector3 pos = transform.position;
         pos.y -= 4 * Time.deltaTime;
         transform.position = pos;
+    }
+
+    void Flying(){
+        _Pj._rb.constraints = RigidbodyConstraints.None;
+        _Pj._rb.useGravity= false;
+        _dressingRoom.wingAnimator.SetBool("Flapping", true);
+        _animator.SetBool("IsFlying", true);
+        SetFacing();
+        FaceChange();
+        Vector3 movement = transform.forward * Mathf.Abs(moveVal.x) * speed;
+        movement.y = moveVal.y * speed;
+         _Pj._rb.AddForce(movement * Time.fixedDeltaTime, ForceMode.VelocityChange);
+            
     }
 
     //INPUTS
@@ -220,6 +233,8 @@ public class BasePlayerController : MonoBehaviour
         _weapons.holdingUp = moveVal.y >0;
         //_weapons.holdingDown = moveVal.y <0;
     }
+
+   
 
     void BeingEaten(){
         _Pj._rb.position = Vector3.zero;
@@ -287,6 +302,18 @@ public class BasePlayerController : MonoBehaviour
             transform.rotation = Quaternion.Euler(0,0,0);
             GameController.instance._CameraAnimator.SetBool("FacingRight", true);
         }
+    }
+
+    private void SetFacing(){
+        if (moveVal.x<0 && facing== GameController.Facing.right && !vertical) facing = GameController.Facing.left;
+        if (moveVal.x>0 && facing== GameController.Facing.left && !vertical) facing = GameController.Facing.right;
+        if (moveVal.x<0 && facing== GameController.Facing.back && !vertical) facing = GameController.Facing.left;
+        if (moveVal.x>0 && facing== GameController.Facing.front && !vertical) facing = GameController.Facing.right;
+
+        if (moveVal.x<0 && facing== GameController.Facing.right && vertical) facing = GameController.Facing.front;
+        if (moveVal.x>0 && facing== GameController.Facing.left && vertical) facing = GameController.Facing.back;
+        if (moveVal.x<0 && facing== GameController.Facing.back && vertical) facing = GameController.Facing.front;
+        if (moveVal.x>0 && facing== GameController.Facing.front && vertical) facing = GameController.Facing.back;
     }
 
     public void ChangeCam(){

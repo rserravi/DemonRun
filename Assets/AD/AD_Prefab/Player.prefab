@@ -147,7 +147,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e3748f13c8be54083ab41071e9d21e6b, type: 2}
+  - {fileID: 2100000, guid: 59f7188f24a079dfc874127ac704083f, type: 2}
   - {fileID: 2100000, guid: 4f1f341a3cbc5d965bca5626aabe8f48, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -248,7 +248,7 @@ SkinnedMeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 273179377860952197}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -7273,6 +7273,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5919031522062234117}
   - component: {fileID: 2000947426279680745}
+  - component: {fileID: 4385359567180104839}
   - component: {fileID: 343596402609629311}
   - component: {fileID: 343596402609629298}
   - component: {fileID: 343596402609629300}
@@ -7280,7 +7281,6 @@ GameObject:
   - component: {fileID: 343596402609629302}
   - component: {fileID: 343596402609629289}
   - component: {fileID: 7775336245986501664}
-  - component: {fileID: 4385359567180104839}
   - component: {fileID: 4473698260298967934}
   m_Layer: 0
   m_Name: Player
@@ -7297,7 +7297,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6444456880766691519}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -17.812, y: 0.82, z: -0}
+  m_LocalPosition: {x: 0, y: 0, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7322,6 +7322,22 @@ CapsuleCollider:
   m_Height: 2.21
   m_Direction: 1
   m_Center: {x: 0, y: 1.04, z: 0}
+--- !u!54 &4385359567180104839
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6444456880766691519}
+  serializedVersion: 2
+  m_Mass: 5
+  m_Drag: 1
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 120
+  m_CollisionDetection: 0
 --- !u!95 &343596402609629311
 Animator:
   serializedVersion: 4
@@ -7458,39 +7474,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e35c44a09dd5d4631a60f858c9be5445, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bodySkin: 3
+  body: 0
   eyes: 3
-  headWings: 0
   collar: 0
   wings: 0
   weapon: 0
-  body: {fileID: 224814150504592820}
-  powerBarPrefab: {fileID: 0}
-  powerBar: {fileID: 0}
-  powerBarTransform: {fileID: 0}
   lavaParticles: {fileID: 7222831416835272465}
+  clothing: 0
+  wingType: 0
+  helmet: 0
   A_Hair: {fileID: 8050051812476725799}
-  A_EyeRight: {fileID: 8050051811817631039}
-  A_EyeRightInt: {fileID: 8050051810839585995}
-  A_EyeLeft: {fileID: 8050051811056334072}
-  A_EyeLeftInt: {fileID: 8050051811085432023}
-  A_WingRight: {fileID: 8050051810693846725}
-  A_WingLeft: {fileID: 8050051812559646103}
-  A_HeadWings: {fileID: 8050051811493243666}
+  A_Eyes: {fileID: 0}
+  A_EyesInternal: {fileID: 0}
+  A_WingsNormal: {fileID: 0}
+  A_WingsAdvanced: {fileID: 0}
+  A_WingsUltra: {fileID: 0}
+  A_Tunica: {fileID: 0}
+  A_Armour: {fileID: 0}
   A_Collar: {fileID: 8050051812689293211}
+  A_Helmet: {fileID: 0}
+  A_Boots: {fileID: 0}
+  A_BodyMesh: {fileID: 0}
+  A_Avatar: {fileID: 0}
+  A_Halo: {fileID: 0}
   A_BodyMat: {fileID: 2100000, guid: e3748f13c8be54083ab41071e9d21e6b, type: 2}
-  A_Mouth: {fileID: 2100000, guid: 4f1f341a3cbc5d965bca5626aabe8f48, type: 2}
   D_Hair: {fileID: 8050051812113673474}
-  D_EyeRight: {fileID: 8050051812029388546}
-  D_EyeRightInt: {fileID: 8050051811349718645}
-  D_EyeLeft: {fileID: 8050051812691172813}
-  D_EyeLeftInt: {fileID: 8050051811548109972}
-  D_WingRight: {fileID: 8050051810893709032}
-  D_WingLeft: {fileID: 8050051811595315472}
-  D_HeadWings: {fileID: 8050051812414692060}
+  D_Eyes: {fileID: 0}
+  D_EyesInternal: {fileID: 0}
+  D_WingsNormal: {fileID: 0}
+  D_WingsAdvanced: {fileID: 0}
+  D_WingsUltra: {fileID: 0}
+  D_Tunica: {fileID: 0}
+  D_Armour: {fileID: 0}
   D_Collar: {fileID: 8050051812065656598}
+  D_Helmet: {fileID: 0}
+  D_BodyMesh: {fileID: 0}
+  D_Avatar: {fileID: 0}
+  D_Tail: {fileID: 0}
+  D_Horns: {fileID: 0}
   D_BodyMat: {fileID: 2100000, guid: 59f7188f24a079dfc874127ac704083f, type: 2}
-  D_Mouth: {fileID: 2100000, guid: 4f1f341a3cbc5d965bca5626aabe8f48, type: 2}
 --- !u!114 &7775336245986501664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7527,22 +7549,6 @@ MonoBehaviour:
   ground: {fileID: 0}
   verticalGround: 0
   overridenDirDetection: 0
---- !u!54 &4385359567180104839
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6444456880766691519}
-  serializedVersion: 2
-  m_Mass: 5
-  m_Drag: 1
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 120
-  m_CollisionDetection: 0
 --- !u!114 &4473698260298967934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13312,7 +13318,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8050051810893709032}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -13562,7 +13568,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8050051811349718645}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -13728,7 +13734,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8050051811548109972}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -13811,7 +13817,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8050051811595315472}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -14063,7 +14069,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8050051812065656598}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -14262,7 +14268,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8050051812414692060}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1

@@ -23,6 +23,8 @@ public class Pj : MonoBehaviour
     public Vector3 gravity;
     public float playerSliderSpeed;
 
+    public bool canFly;
+
     [Header("INFO")]
 
     public bool isGrounded;
@@ -145,6 +147,10 @@ public class Pj : MonoBehaviour
         }
         if (!isGrounded){
             _boya.activated = false;
+            if (canFly){
+                movementStyle ="Flying";
+            }
+            
             //movementStyle = "Walking";
         }
     }

@@ -3,52 +3,68 @@ using UnityEngine;
 public class DressingRoom : MonoBehaviour
 {
 
+    public enum Clothing {nude, tunica, armour};
+    public enum WingType {normal, advanced, ultra}
     [Header("Good or Evil")]
-    public GameController.goodEvil bodySkin;
+    
+    public GameController.goodEvil body;
     public GameController.goodEvil eyes;
-    public GameController.goodEvil headWings;
     public GameController.goodEvil collar;
     public GameController.goodEvil wings;
     public GameController.goodEvil weapon;
 
     [Header("General GameObjects")]
-    public GameObject body;
-    public GameObject powerBarPrefab;
-    public GameObject powerBar;
-    public Transform powerBarTransform;
-    public ParticleSystem lavaParticles;    
+    public ParticleSystem lavaParticles; 
+    public Animator wingAnimator;
+
+    [Header("Basic Parameters")]
+    public Clothing clothing;
+    public WingType wingType;
+    public bool helmet;
 
     [Header("GameObjects Angel")]
+
     public GameObject A_Hair;
-    public GameObject A_EyeRight;
-    public GameObject A_EyeRightInt;
-    public GameObject A_EyeLeft;
-    public GameObject A_EyeLeftInt;
-    public GameObject A_WingRight;
-    public GameObject A_WingLeft;
-    public GameObject A_HeadWings;
+    public GameObject A_Eyes;
+    public GameObject A_EyesInternal;
+    public GameObject A_WingsNormal;
+    public GameObject A_WingsAdvanced;
+    public GameObject A_WingsUltra;
+    public GameObject A_Tunica;
+    public GameObject A_Armour;
     public GameObject A_Collar;
+    public GameObject A_Helmet;
+    public GameObject A_Boots;
+    public GameObject A_BodyMesh;
+    public Avatar A_Avatar;
+    public GameObject A_Halo;
     public Material A_BodyMat;
-    public Material A_Mouth;
+    
 
     [Header("GameObjects Demon")]
     public GameObject D_Hair;
-    public GameObject D_EyeRight;
-    public GameObject D_EyeRightInt;
-    public GameObject D_EyeLeft;
-    public GameObject D_EyeLeftInt;
-    public GameObject D_WingRight;
-    public GameObject D_WingLeft;
-    public GameObject D_HeadWings;
+    public GameObject D_Eyes;
+    public GameObject D_EyesInternal;
+    public GameObject D_WingsNormal;
+    public GameObject D_WingsAdvanced;
+    public GameObject D_WingsUltra;
+    public GameObject D_Tunica;
+    public GameObject D_Armour;
     public GameObject D_Collar;
+    public GameObject D_Helmet;
+    public GameObject D_BodyMesh;
+    public Avatar D_Avatar;
+    public GameObject D_Tail;
+    public GameObject D_Horns;
     public Material D_BodyMat;
-    public Material D_Mouth;
 
     private Pj _pj;
+    private Animator _Animator;
     // Start is called before the first frame update
     void Start()
     {
         _pj = GetComponent<Pj>();
+        _Animator = GetComponent<Animator>();
         SetLooks();
     }
 
@@ -63,85 +79,134 @@ public class DressingRoom : MonoBehaviour
     }
      void SetLooks(){
         
-        switch (bodySkin)
+        switch (body)
         {
             case GameController.goodEvil.good:
-                Material[] mats = new Material[]{A_BodyMat, A_Mouth};
-                body.GetComponent<SkinnedMeshRenderer>().materials = mats;
-                A_Hair.GetComponentInChildren<SkinnedMeshRenderer>().enabled = true;;
-                D_Hair.GetComponentInChildren<SkinnedMeshRenderer>().enabled = false;
+                A_BodyMesh.GetComponent<SkinnedMeshRenderer>().enabled = true;
+                A_Halo.GetComponent<Renderer>().enabled = true;
+                D_Tail.GetComponent<Renderer>().enabled = false;
+                D_Horns.GetComponent<SkinnedMeshRenderer>().enabled = false;
+                D_BodyMesh.GetComponent<SkinnedMeshRenderer>().enabled = false;
+                if (helmet){
+                    A_Helmet.GetComponent<Renderer>().enabled = true;
+                    D_Helmet.GetComponent<Renderer>().enabled = false;
+                    A_Hair.GetComponent<SkinnedMeshRenderer>().enabled = false;;
+                    D_Hair.GetComponent<Renderer>().enabled = false;
+                
+                }
+                else{
+                    A_Helmet.GetComponent<Renderer>().enabled = false;
+                    D_Helmet.GetComponent<Renderer>().enabled = false;
+                    A_Hair.GetComponent<SkinnedMeshRenderer>().enabled = true;;
+                    D_Hair.GetComponent<Renderer>().enabled = false;
+                }
+                switch (clothing)
+                {
+                    case Clothing.nude:
+                        A_Tunica.GetComponent<SkinnedMeshRenderer>().enabled=false;
+                       // D_Tunica.GetComponent<SkinnedMeshRenderer>().enabled=false;
+                        A_Armour.GetComponent<SkinnedMeshRenderer>().enabled=false;
+                       // D_Armour.GetComponent<SkinnedMeshRenderer>().enabled=false;
+                        break;
+                    case Clothing.tunica:
+                        A_Tunica.GetComponent<SkinnedMeshRenderer>().enabled=true;
+                       // D_Tunica.GetComponent<SkinnedMeshRenderer>().enabled=false;
+                        A_Armour.GetComponent<SkinnedMeshRenderer>().enabled=false;
+                        //D_Armour.GetComponent<SkinnedMeshRenderer>().enabled=false;
+                        break;
+                    case Clothing.armour:
+                        A_Tunica.GetComponent<SkinnedMeshRenderer>().enabled=false;
+                        //D_Tunica.GetComponent<SkinnedMeshRenderer>().enabled=false;
+                        A_Armour.GetComponent<SkinnedMeshRenderer>().enabled=true;
+                        //D_Armour.GetComponent<SkinnedMeshRenderer>().enabled=false;
+                        break;
+                    
+                    default:
+                        break;
+                }
+                _Animator.avatar = A_Avatar;
                 break;
             case GameController.goodEvil.evil:
-                Material[] mats2 = new Material[]{D_BodyMat, A_Mouth};
-                body.GetComponent<SkinnedMeshRenderer>().materials = mats2;
-                A_Hair.GetComponentInChildren<SkinnedMeshRenderer>().enabled = false;;
-                D_Hair.GetComponentInChildren<SkinnedMeshRenderer>().enabled = true;
+                A_BodyMesh.GetComponent<SkinnedMeshRenderer>().enabled = false;
+                A_Halo.GetComponent<Renderer>().enabled = false;
+                D_Tail.GetComponent<Renderer>().enabled = true;
+                D_Horns.GetComponent<SkinnedMeshRenderer>().enabled = true;
+                D_BodyMesh.GetComponent<SkinnedMeshRenderer>().enabled = true;
+                if (helmet){
+                    A_Helmet.GetComponent<Renderer>().enabled = false;
+                    D_Helmet.GetComponent<Renderer>().enabled = true;
+                    A_Hair.GetComponent<SkinnedMeshRenderer>().enabled = false;;
+                    D_Hair.GetComponent<Renderer>().enabled  = false;
+                
+                }
+                else{
+                    A_Helmet.GetComponent<Renderer>().enabled = false;
+                    D_Helmet.GetComponent<Renderer>().enabled = false;
+                     A_Hair.GetComponent<SkinnedMeshRenderer>().enabled = false;;
+                    D_Hair.GetComponent<Renderer>().enabled  = true;
+                }
+                switch (clothing)
+                {
+                    case Clothing.nude:
+                        A_Tunica.GetComponent<SkinnedMeshRenderer>().enabled=false;
+                        //D_Tunica.GetComponent<SkinnedMeshRenderer>().enabled=false;
+                        A_Armour.GetComponent<SkinnedMeshRenderer>().enabled=false;
+                        //D_Armour.GetComponent<SkinnedMeshRenderer>().enabled=false;
+                        break;
+                    case Clothing.tunica:
+                        A_Tunica.GetComponent<SkinnedMeshRenderer>().enabled=false;
+                        //D_Tunica.GetComponent<SkinnedMeshRenderer>().enabled=true;
+                        A_Armour.GetComponent<SkinnedMeshRenderer>().enabled=false;
+                        //D_Armour.GetComponent<SkinnedMeshRenderer>().enabled=false;
+                        break;
+                    case Clothing.armour:
+                        A_Tunica.GetComponent<SkinnedMeshRenderer>().enabled=false;
+                        //D_Tunica.GetComponent<SkinnedMeshRenderer>().enabled=false;
+                        A_Armour.GetComponent<SkinnedMeshRenderer>().enabled=false;
+                        //D_Armour.GetComponent<SkinnedMeshRenderer>().enabled=true;
+                        break;
+                    
+                    default:
+                        break;
+                }
+                _Animator.avatar = D_Avatar;
                 break;
             default:
-                Material[] mats3 = new Material[]{D_BodyMat, A_Mouth};
-                body.GetComponent<SkinnedMeshRenderer>().materials = mats3;
-                A_Hair.GetComponentInChildren<SkinnedMeshRenderer>().enabled = false;;
-                D_Hair.GetComponentInChildren<SkinnedMeshRenderer>().enabled = true;
+                A_BodyMesh.GetComponent<SkinnedMeshRenderer>().enabled = false;;
+                D_BodyMesh.GetComponent<SkinnedMeshRenderer>().enabled = true;
+                A_Halo.GetComponent<Renderer>().enabled  = false;
+                D_Tail.GetComponent<Renderer>().enabled = true;
+                D_Horns.GetComponent<SkinnedMeshRenderer>().enabled = true;
+                A_Hair.GetComponent<SkinnedMeshRenderer>().enabled = false;;
+                D_Hair.GetComponent<Renderer>().enabled  = true;
+                A_Helmet.GetComponent<Renderer>().enabled = false;
+                D_Helmet.GetComponent<Renderer>().enabled = false;
+                _Animator.avatar = D_Avatar;
                 break;
         }
 
         switch (eyes)
         {
             case GameController.goodEvil.good:
-                A_EyeLeft.GetComponent<Renderer>().enabled = true;
-                A_EyeLeftInt.GetComponent<Renderer>().enabled = true;
-                A_EyeRight.GetComponent<Renderer>().enabled = true;
-                A_EyeRightInt.GetComponent<Renderer>().enabled = true;
-
-                D_EyeLeft.GetComponent<Renderer>().enabled = false;
-                D_EyeLeftInt.GetComponent<Renderer>().enabled = false;
-                D_EyeRight.GetComponent<Renderer>().enabled = false;
-                D_EyeRightInt.GetComponent<Renderer>().enabled = false;
+                A_Eyes.GetComponent<SkinnedMeshRenderer>().enabled = true;   
+                A_EyesInternal.GetComponent<SkinnedMeshRenderer>().enabled = true;            
+                D_Eyes.GetComponent<Renderer>().enabled = false;
+                D_EyesInternal.GetComponent<Renderer>().enabled = false;
                 break;
             case GameController.goodEvil.evil:
-                A_EyeLeft.GetComponent<Renderer>().enabled = false;
-                A_EyeLeftInt.GetComponent<Renderer>().enabled = false;
-                A_EyeRight.GetComponent<Renderer>().enabled = false;
-                A_EyeRightInt.GetComponent<Renderer>().enabled = false;
-
-                D_EyeLeft.GetComponent<Renderer>().enabled = true;
-                D_EyeLeftInt.GetComponent<Renderer>().enabled = true;
-                D_EyeRight.GetComponent<Renderer>().enabled = true;
-                D_EyeRightInt.GetComponent<Renderer>().enabled = true;
+                A_Eyes.GetComponent<SkinnedMeshRenderer>().enabled = false;   
+                A_EyesInternal.GetComponent<SkinnedMeshRenderer>().enabled = false;            
+                D_Eyes.GetComponent<Renderer>().enabled = true;
+                D_EyesInternal.GetComponent<Renderer>().enabled = true;
                 break;
             default:
-                A_EyeLeft.GetComponent<Renderer>().enabled = false;
-                A_EyeLeftInt.GetComponent<Renderer>().enabled = false;
-                A_EyeRight.GetComponent<Renderer>().enabled = false;
-                A_EyeRightInt.GetComponent<Renderer>().enabled = false;
-
-                D_EyeLeft.GetComponent<Renderer>().enabled = true;
-                D_EyeLeftInt.GetComponent<Renderer>().enabled = true;
-                D_EyeRight.GetComponent<Renderer>().enabled = true;
-                D_EyeRightInt.GetComponent<Renderer>().enabled = true;
+                A_Eyes.GetComponent<SkinnedMeshRenderer>().enabled = false;   
+                A_EyesInternal.GetComponent<SkinnedMeshRenderer>().enabled = false;            
+                D_Eyes.GetComponent<Renderer>().enabled = true;
+                D_EyesInternal.GetComponent<Renderer>().enabled = true;
                 break;
         }
 
-        switch (headWings)
-        {
-            case GameController.goodEvil.none:
-               
-                A_HeadWings.GetComponent<Renderer>().enabled = false;
-                D_HeadWings.GetComponent<Renderer>().enabled = false;
-                break;
-            case GameController.goodEvil.good:
-                A_HeadWings.GetComponent<Renderer>().enabled = true;
-                D_HeadWings.GetComponent<Renderer>().enabled = false;
-                break;
-            case GameController.goodEvil.evil:
-                A_HeadWings.GetComponent<Renderer>().enabled = false;
-                D_HeadWings.GetComponent<Renderer>().enabled = true;
-                break;
-            default:
-                A_HeadWings.GetComponent<Renderer>().enabled = false;
-                D_HeadWings.GetComponent<Renderer>().enabled = false;
-                break;
-        }
         switch (collar)
         {
             case GameController.goodEvil.none:
@@ -161,32 +226,106 @@ public class DressingRoom : MonoBehaviour
                 A_Collar.GetComponent<Renderer>().enabled = false;
                 D_Collar.GetComponent<Renderer>().enabled = false;
                 break;
-        }
+        }       
+        
         switch (wings)
         {
             case GameController.goodEvil.none:
-                A_WingLeft.GetComponent<Renderer>().enabled = false;
-                A_WingRight.GetComponent<Renderer>().enabled = false;
-                D_WingLeft.GetComponent<Renderer>().enabled = false;
-                D_WingRight.GetComponent<Renderer>().enabled = false;
+                A_WingsNormal.GetComponent<SkinnedMeshRenderer>().enabled = false;
+                A_WingsAdvanced.GetComponent<SkinnedMeshRenderer>().enabled = false;
+                A_WingsUltra.GetComponent<SkinnedMeshRenderer>().enabled = false;
+                D_WingsNormal.GetComponent<SkinnedMeshRenderer>().enabled = false;
+                D_WingsAdvanced.GetComponent<SkinnedMeshRenderer>().enabled = false;
+                D_WingsUltra.GetComponent<SkinnedMeshRenderer>().enabled = false;
+               
                 break;
             case GameController.goodEvil.good:
-                A_WingLeft.GetComponent<Renderer>().enabled = true;
-                A_WingRight.GetComponent<Renderer>().enabled = true;
-                D_WingLeft.GetComponent<Renderer>().enabled = false;
-                D_WingRight.GetComponent<Renderer>().enabled = false;
+                switch (wingType)
+                {
+                    case WingType.normal:
+                        Debug.Log("SETTING WINGS GOOD");
+                        A_WingsNormal.GetComponent<SkinnedMeshRenderer>().enabled = true;
+                        A_WingsAdvanced.GetComponent<SkinnedMeshRenderer>().enabled = false;
+                       // A_WingsUltra.GetComponent<Renderer>().enabled = false;
+                        D_WingsNormal.GetComponent<SkinnedMeshRenderer>().enabled = false;
+                       // D_WingsAdvanced.GetComponent<Renderer>().enabled = false;
+                       // D_WingsUltra.GetComponent<Renderer>().enabled = false;
+                       wingAnimator = A_WingsNormal.GetComponentInParent<Animator>();
+                        break;
+                        
+                    case WingType.advanced:
+                        A_WingsNormal.GetComponent<SkinnedMeshRenderer>().enabled = false;
+                        A_WingsAdvanced.GetComponent<SkinnedMeshRenderer>().enabled = true;
+                      //  A_WingsUltra.GetComponent<Renderer>().enabled = false;
+                        D_WingsNormal.GetComponent<SkinnedMeshRenderer>().enabled = false;
+                      //  D_WingsAdvanced.GetComponent<Renderer>().enabled = false;
+                      //  D_WingsUltra.GetComponent<Renderer>().enabled = false;
+                        wingAnimator = A_WingsAdvanced.GetComponentInParent<Animator>();
+                        break;
+                    case WingType.ultra:
+                        A_WingsNormal.GetComponent<SkinnedMeshRenderer>().enabled = false;
+                        A_WingsAdvanced.GetComponent<SkinnedMeshRenderer>().enabled = false;
+                      //  A_WingsUltra.GetComponent<Renderer>().enabled = true;
+                        D_WingsNormal.GetComponent<SkinnedMeshRenderer>().enabled = false;
+                      //  D_WingsAdvanced.GetComponent<Renderer>().enabled = false;
+                      //  D_WingsUltra.GetComponent<Renderer>().enabled = false;
+                        break;
+                    
+                    default:
+                        A_WingsNormal.GetComponent<SkinnedMeshRenderer>().enabled = false;
+                        A_WingsAdvanced.GetComponent<SkinnedMeshRenderer>().enabled = false;
+                      //  A_WingsUltra.GetComponent<Renderer>().enabled = false;
+                        D_WingsNormal.GetComponent<SkinnedMeshRenderer>().enabled = false;
+                      //  D_WingsAdvanced.GetComponent<Renderer>().enabled = false;
+                      //  D_WingsUltra.GetComponent<Renderer>().enabled = false;
+                        break;
+                }
                 break;
             case GameController.goodEvil.evil:
-                A_WingLeft.GetComponent<Renderer>().enabled = false;
-                A_WingRight.GetComponent<Renderer>().enabled = false;
-                D_WingLeft.GetComponent<Renderer>().enabled = true;
-                D_WingRight.GetComponent<Renderer>().enabled = true;
+                switch (wingType)
+                {
+                    case WingType.normal:
+                        A_WingsNormal.GetComponent<SkinnedMeshRenderer>().enabled = false;
+                        A_WingsAdvanced.GetComponent<SkinnedMeshRenderer>().enabled = false;
+                      //  A_WingsUltra.GetComponent<Renderer>().enabled = false;
+                        D_WingsNormal.GetComponent<SkinnedMeshRenderer>().enabled = true;
+                      //  D_WingsAdvanced.GetComponent<Renderer>().enabled = false;
+                      //  D_WingsUltra.GetComponent<Renderer>().enabled = false;
+                        break;
+                    case WingType.advanced:
+                        A_WingsNormal.GetComponent<SkinnedMeshRenderer>().enabled = false;
+                        A_WingsAdvanced.GetComponent<SkinnedMeshRenderer>().enabled = false;
+                      //  A_WingsUltra.GetComponent<Renderer>().enabled = false;
+                        D_WingsNormal.GetComponent<SkinnedMeshRenderer>().enabled = false;
+                      //  D_WingsAdvanced.GetComponent<Renderer>().enabled = true;
+                      //  D_WingsUltra.GetComponent<Renderer>().enabled = false;
+                        break;
+                    case WingType.ultra:
+                        A_WingsNormal.GetComponent<SkinnedMeshRenderer>().enabled = false;
+                        A_WingsAdvanced.GetComponent<SkinnedMeshRenderer>().enabled = false;
+                      //  A_WingsUltra.GetComponent<Renderer>().enabled = false;
+                        D_WingsNormal.GetComponent<SkinnedMeshRenderer>().enabled = false;
+                      //  D_WingsAdvanced.GetComponent<Renderer>().enabled = false;
+                      //  D_WingsUltra.GetComponent<Renderer>().enabled = true;
+                        break;
+                    
+                    default:
+                        A_WingsNormal.GetComponent<SkinnedMeshRenderer>().enabled = false;
+                        A_WingsAdvanced.GetComponent<SkinnedMeshRenderer>().enabled = false;
+                      //  A_WingsUltra.GetComponent<Renderer>().enabled = false;
+                        D_WingsNormal.GetComponent<SkinnedMeshRenderer>().enabled = false;
+                      //  D_WingsAdvanced.GetComponent<Renderer>().enabled = false;
+                      //  D_WingsUltra.GetComponent<Renderer>().enabled = false;
+                        break;
+                }
                 break;
             default:
-                A_WingLeft.GetComponent<Renderer>().enabled = false;
-                A_WingRight.GetComponent<Renderer>().enabled = false;
-                D_WingLeft.GetComponent<Renderer>().enabled = false;
-                D_WingRight.GetComponent<Renderer>().enabled = false;
+                A_WingsNormal.GetComponent<SkinnedMeshRenderer>().enabled = false;
+                A_WingsAdvanced.GetComponent<SkinnedMeshRenderer>().enabled = false;
+              //  A_WingsUltra.GetComponent<Renderer>().enabled = false;
+                D_WingsNormal.GetComponent<SkinnedMeshRenderer>().enabled = false;
+              //  D_WingsAdvanced.GetComponent<Renderer>().enabled = false;
+              //  D_WingsUltra.GetComponent<Renderer>().enabled = false;
                 break;
         }
     }
